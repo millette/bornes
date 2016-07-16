@@ -4,9 +4,8 @@ var webpack = require('webpack')
 module.exports = {
   entry: ['./entry.js'],
   output: {
-    path: path.resolve('build'),
-    filename: '[name].js',
-    publicPath: '/'
+    path: __dirname,
+    filename: 'bundle.js'
   },
   devServer: {
     port: 4040
@@ -16,7 +15,7 @@ module.exports = {
       {
         test: /\.css?$/,
         loader: 'style!css'
-      }
+      },
     ]
   }
 }

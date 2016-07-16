@@ -6,7 +6,7 @@
     "start": "webpack-dev-server --content-base build/"
   },
   "devDependencies": {
-    "html-webpack-plugin": "2.21.0",
+    "html-webpack-plugin": "2.22.0",
     "webpack-dev-server": "1.14.1",
     "webpack": "1.13.1",
     "babel-loader": "6.2.4",

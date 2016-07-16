@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "webpack starter project",
   "scripts": {
+    "lint": "standard",
     "start": "webpack-dev-server"
   },
   "devDependencies": {
@@ -10,6 +11,7 @@
     "drag-drop-polyfill": "github:millette/drag-drop-polyfill",
     "image-webpack-loader": "^2.0.0",
     "rollodeqc-gh-repos-issues": "0.0.1",
+    "standard": "^7.1.2",
     "style-loader": "0.13.1",
     "webpack": "1.13.1",
     "webpack-dev-server": "1.14.1"

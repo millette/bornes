@@ -2,7 +2,6 @@
   console.log('Lets go!')
 
   // For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
-  /*@cc_on'abbr article aside audio canvas details figcaption figure footer header hgroup mark menu meter nav output progress section summary time video'.replace(/\w+/g,function(n){document.createElement(n)})@*/
   var addEvent = (function () {
     if (document.addEventListener) {
       return function (el, type, fn) {
@@ -27,13 +26,13 @@
     }
   })()
 
-
   var eat = ['yum!', 'gulp', 'burp!', 'nom']
   var yum = document.createElement('p')
-  var msie = /*@cc_on!@*/0
   yum.style.opacity = 1
 
-  var links = document.querySelectorAll('li > a'), el = null
+  var links = document.querySelectorAll('li > a')
+  var el
+
   for (var i = 0; i < links.length; i++) {
     el = links[i]
 
@@ -81,9 +80,6 @@
     setTimeout(function () {
       var t = setInterval(function () {
         if (y.style.opacity <= 0) {
-          if (msie) { // don't bother with the animation
-            y.style.display = 'none'
-          }
           clearInterval(t)
         } else {
           y.style.opacity -= 0.1

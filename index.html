@@ -5,9 +5,16 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Webpack Starter Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>
+        var iosDragDropShim = { enableEnterLeave: true }
+    </script>
   </head>
   <body>
-    <div id="app">Hope</div>
+    <div draggable="true" ondragstart="event.dataTransfer.setData('text/plain', 'This text may be dragged')" id="app">Hope</div>
+    <p>More</p>
+    <p>More</p>
+    <div ondragover="var d = event.dataTransfer.getData('text/plain');event.target.textContent = d; event.preventDefault()">ha</div>
   </body>
-  <script src="main.js"></script>
+
+  <script src="bundle.js"></script>
 </html>

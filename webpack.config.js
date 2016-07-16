@@ -1,28 +1,8 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-
-var loaders = [
-  {
-    'test': /\.js?$/,
-    'exclude': /node_modules/,
-    'loader': 'babel',
-    'query': {
-      'presets': [
-        'es2015'
-      ],
-      'plugins': []
-    }
-  },
-  {
-    'test': /\.css?$/,
-    'loader': 'style!css'
-  }
-];
+var path = require('path')
+var webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval-source-map',
-  entry: path.resolve('src', 'main.js'),
+  entry: ['./entry.js'],
   output: {
     path: path.resolve('build'),
     filename: '[name].js',
@@ -31,14 +11,13 @@ module.exports = {
   devServer: {
     port: 4040
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.resolve('src', 'index.tpl.html'),
-      inject: 'body',
-      filename: 'index.html'
-    })
-  ],
   module: {
-    loaders: loaders
+    loaders: [
+      {
+        test: /\.css?$/,
+        loader: 'style!css'
+      }
+    ]
   }
-};
+}
+

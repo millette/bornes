@@ -25,7 +25,7 @@
   var eat = ['yum!', 'gulp', 'burp!', 'nom']
   var yum = document.createElement('p')
 
-  var links = document.querySelectorAll('li > a')
+  var links = document.querySelectorAll('li')
   var bin = document.querySelector('#bin')
   var el
   var i
@@ -60,25 +60,32 @@
   // to get IE to work
   addEvent(bin, 'dragenter', function (e) {
     ping('dragenter')
-    this.className = 'over'
+    this.classList.add('over')
     return false
   })
 
   addEvent(bin, 'dragleave', function () {
     ping('dragleave')
     draggedOver = false
-    this.className = ''
+    this.classList.remove('over')
   })
 
   addEvent(bin, 'drop', function (e) {
-    ping('drop')
-    draggedOver = false
     var el = document.getElementById(e.dataTransfer.getData('Text'))
     var y
-    if (e.stopPropagation) { e.stopPropagation() } // stops the browser from redirecting...why???
+
+    ping('drop')
+    draggedOver = false
+
+    e.preventDefault()
+
+    if (e.stopPropagation) {
+      ping('propog.')
+      e.stopPropagation()
+    } // stops the browser from redirecting...why???
     el.parentNode.removeChild(el)
     // stupid nom text + fade effect
-    bin.className = ''
+    this.classList.remove('over')
     yum.innerHTML = eat[parseInt(Math.random() * eat.length)]
     y = yum.cloneNode(true)
     bin.appendChild(y)

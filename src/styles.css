@@ -4,9 +4,6 @@
 
 li {
   list-style: none;
-}
-
-li a {
   text-decoration: none;
   color: #000;
   margin: 10px;
@@ -14,7 +11,6 @@ li a {
   border: 3px dashed #999;
   background: #eee;
   padding: 10px;
-  display: block;
 }
 
 *[draggable=true] {
@@ -27,7 +23,7 @@ li a {
   background-color: rgba(238,238,238, 0.5);
 }
 
-li a:hover:after {
+li:hover:after {
   content: ' (drag me)';
 }
 
@@ -66,7 +62,7 @@ li.over {
   text-shadow: #000 2px 2px 2px;
 }
 
-li > a > span {
+li#one span {
  display: inline-block;
  background: lightblue;
 }

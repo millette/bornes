@@ -65,3 +65,8 @@ li.over {
   color: #fff;
   text-shadow: #000 2px 2px 2px;
 }
+
+li > a > span {
+ display: inline-block;
+ background: lightblue;
+}

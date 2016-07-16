@@ -1,4 +1,3 @@
-import './src/styles.css';
-
-const main = require('./src/main.js')
+require('./src/styles.css')
+require('./src/main.js')
 

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "webpack starter project",
   "scripts": {
-    "start": "webpack-dev-server --content-base build/"
+    "start": "webpack-dev-server"
   },
   "devDependencies": {
     "css-loader": "0.23.1",

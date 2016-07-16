@@ -29,9 +29,12 @@
   var bin = document.querySelector('#bin')
   var el
   var i
+  var rnd = Math.floor(Math.random() * 1e6)
+  var draggedOver = false
 
   var dragStart = function (ev) {
     ping('dragstart')
+    ping(this.id)
     ev.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be dropable
     ev.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
   }
@@ -40,11 +43,15 @@
   for (i = 0; i < links.length; ++i) {
     el = links[i]
     el.setAttribute('draggable', 'true')
+    if (!el.id) { el.id = ('dndrnd-' + rnd) + (i + 1) }
     addEvent(el, 'dragstart', dragStart)
   }
 
   addEvent(bin, 'dragover', function (e) {
-    ping('dragover')
+    if (!draggedOver) {
+      ping('dragover')
+      draggedOver = true
+    }
     if (e.preventDefault) { e.preventDefault() } // allows us to drop
     e.dataTransfer.dropEffect = 'copy'
     return false
@@ -59,11 +66,13 @@
 
   addEvent(bin, 'dragleave', function () {
     ping('dragleave')
+    draggedOver = false
     this.className = ''
   })
 
   addEvent(bin, 'drop', function (e) {
     ping('drop')
+    draggedOver = false
     var el = document.getElementById(e.dataTransfer.getData('Text'))
     var y
     if (e.stopPropagation) { e.stopPropagation() } // stops the browser from redirecting...why???

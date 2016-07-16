@@ -1,14 +1,19 @@
 (function () {
-  var ping = function (a) { console.log(new Date(), a) }
+  var debugPing = false
+
+  var ping = debugPing
+    ? function (a) { console.log(new Date(), a) }
+    : function () { }
 
   // For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
   var addEvent = (function () {
+    var i
     if (document.addEventListener) {
       return function (el, type, fn) {
         if (el && el.nodeName || el === window) {
           el.addEventListener(type, fn, false)
         } else if (el && el.length) {
-          for (var i = 0; i < el.length; i++) { addEvent(el[i], type, fn) }
+          for (i = 0; i < el.length; ++i) { addEvent(el[i], type, fn) }
         }
       }
     } else {
@@ -16,20 +21,15 @@
         if (el && el.nodeName || el === window) {
           el.attachEvent('on' + type, function () { return fn.call(el, window.event) })
         } else if (el && el.length) {
-          for (var i = 0; i < el.length; i++) { addEvent(el[i], type, fn) }
+          for (i = 0; i < el.length; ++i) { addEvent(el[i], type, fn) }
         }
       }
     }
   })()
 
   var eat = ['yum!', 'gulp', 'burp!', 'nom']
-  var yum = document.createElement('p')
-
   var links = document.querySelectorAll('li')
   var bin = document.querySelector('#bin')
-  var el
-  var i
-  var rnd = Math.floor(Math.random() * 1e6)
   var draggedOver = false
 
   var dragStart = function (ev) {
@@ -39,13 +39,20 @@
     ev.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
   }
 
-  yum.style.opacity = 1
-  for (i = 0; i < links.length; ++i) {
-    el = links[i]
-    el.setAttribute('draggable', 'true')
-    if (!el.id) { el.id = ('dndrnd-' + rnd) + (i + 1) }
-    addEvent(el, 'dragstart', dragStart)
+  var setDraggables = function () {
+    var i
+    var elem
+    var rnd = Math.floor(Math.random() * 1e6)
+
+    for (i = 0; i < links.length; ++i) {
+      elem = links[i]
+      elem.setAttribute('draggable', 'true')
+      if (!elem.id) { elem.id = ('dndrnd-' + rnd) + (i + 1) }
+      addEvent(elem, 'dragstart', dragStart)
+    }
   }
+
+  setDraggables()
 
   addEvent(bin, 'dragover', function (e) {
     if (!draggedOver) {
@@ -71,18 +78,18 @@
   })
 
   addEvent(bin, 'drop', function (e) {
-    var el = document.getElementById(e.dataTransfer.getData('Text'))
     var y
+    var el = document.getElementById(e.dataTransfer.getData('Text'))
+    var yum = document.createElement('p')
+    yum.style.opacity = 1
 
     ping('drop')
     draggedOver = false
 
+    // stops the browser from redirecting...why???
     e.preventDefault()
+    if (e.stopPropagation) { e.stopPropagation() }
 
-    if (e.stopPropagation) {
-      ping('propog.')
-      e.stopPropagation()
-    } // stops the browser from redirecting...why???
     el.parentNode.removeChild(el)
     // stupid nom text + fade effect
     this.classList.remove('over')

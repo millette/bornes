@@ -1,4 +1,6 @@
 (function () {
+  var ping = function (a) { console.log(new Date(), a) }
+
   // For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
   var addEvent = (function () {
     if (document.addEventListener) {
@@ -28,34 +30,40 @@
   var el
   var i
 
+  var dragStart = function (ev) {
+    ping('dragstart')
+    ev.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be dropable
+    ev.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
+  }
+
   yum.style.opacity = 1
   for (i = 0; i < links.length; ++i) {
     el = links[i]
     el.setAttribute('draggable', 'true')
-    addEvent(el, 'dragstart', function (e) {
-      e.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be dropable
-      e.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
-    })
+    addEvent(el, 'dragstart', dragStart)
   }
 
   addEvent(bin, 'dragover', function (e) {
+    ping('dragover')
     if (e.preventDefault) { e.preventDefault() } // allows us to drop
-    this.className = 'over'
     e.dataTransfer.dropEffect = 'copy'
     return false
   })
 
   // to get IE to work
   addEvent(bin, 'dragenter', function (e) {
+    ping('dragenter')
     this.className = 'over'
     return false
   })
 
   addEvent(bin, 'dragleave', function () {
+    ping('dragleave')
     this.className = ''
   })
 
   addEvent(bin, 'drop', function (e) {
+    ping('drop')
     var el = document.getElementById(e.dataTransfer.getData('Text'))
     var y
     if (e.stopPropagation) { e.stopPropagation() } // stops the browser from redirecting...why???

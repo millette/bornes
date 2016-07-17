@@ -11,8 +11,6 @@
 
   var utils = require('./utils')
 
-  var draggedOver = false
-
   var setDraggables = function () {
     var rnd = Math.floor(Math.random() * 1e6)
     var links = document.querySelectorAll('ul.issues li')
@@ -37,6 +35,7 @@
     .then(function (response) {
       return response.json()
     }).then(function (issuesData) {
+      var draggedOver = false
       var body = document.querySelector('body')
       var byMilestone = groupBy(issuesData, function (x) {
         return x.milestone && x.milestone.number || 'none'
@@ -56,6 +55,7 @@
         byMilestone[milestoneNumber].forEach(function (z) {
           var el = document.createElement('li')
           var txt = 'Issue #' + z.number
+          el.id = 'issue-' + z.number
           z.labels.forEach(function (l) {
             txt += ' <small class="label" style="color: white; background: #' + l.color + ';">' + l.name + '</small>'
           })
@@ -97,8 +97,8 @@
       })
 
       utils.addEvent(bin, 'drop', function (e) {
-        var y
-        var eat = ['yum!', 'gulp', 'burp!', 'nom']
+        // var y
+        // var eat = ['yum!', 'gulp', 'burp!', 'nom']
         var el = document.getElementById(e.dataTransfer.getData('Text'))
         // var yum = document.createElement('p')
         // yum.style.opacity = 1

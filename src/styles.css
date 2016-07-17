@@ -7,7 +7,7 @@ li {
   text-decoration: none;
   color: #000;
   margin: 10px;
-  width: 150px;
+  width: 17em;
   border: 3px dashed #999;
   background: #eee;
   padding: 10px;
@@ -65,4 +65,8 @@ li.over {
 li#one span {
  display: inline-block;
  background: lightblue;
+}
+
+.label {
+  padding: 0 0.25em;
 }

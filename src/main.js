@@ -13,7 +13,7 @@
 
   var setDraggables = function () {
     var rnd = Math.floor(Math.random() * 1e6)
-    var links = document.querySelectorAll('li')
+    var links = document.querySelectorAll('ul#items li')
 
     var dragStart = function (ev) {
       ping('dragstart:' + this.id)
@@ -31,19 +31,28 @@
     })
   }
 
-  var issuesData
+  // var issuesData
 
   window.fetch('millette--committed-streaker.json')
     .then(function (response) {
       return response.json()
-    }).then(function (json) {
-      issuesData = json
+    }).then(function (issuesData) {
+      var ul = document.querySelector('ul#items')
       console.log('parsed json', issuesData)
+      issuesData.forEach(function (z) {
+        var el = document.createElement('li')
+        var txt = 'Issue #' + z.number
+        z.labels.forEach(function (l) {
+          txt += ' <small class="label" style="color: white; background: #' + l.color + ';">' + l.name + '</small>'
+        })
+        txt += '<br>' + z.title
+        el.innerHTML = txt
+        ul.appendChild(el)
+      })
+      setDraggables()
     }).catch(function (ex) {
       console.log('parsing failed', ex)
     })
-
-  setDraggables()
 
   utils.addEvent(bin, 'dragover', function (e) {
     if (!draggedOver) {
@@ -83,7 +92,8 @@
     e.preventDefault()
     if (e.stopPropagation) { e.stopPropagation() }
 
-    el.parentNode.removeChild(el)
+    this.appendChild(el)
+    // el.parentNode.removeChild(el)
     // stupid yum text + fade effect
     this.classList.remove('over')
     yum.innerHTML = eat[parseInt(Math.random() * eat.length)]

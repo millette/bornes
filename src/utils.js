@@ -1,7 +1,7 @@
-'use strict'
-
 // For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
 exports.addEvent = (function () {
+  'use strict'
+
   if (document.addEventListener) {
     return function (el, type, fn) {
       if (el && el.nodeName || el === window) {

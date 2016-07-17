@@ -7,7 +7,6 @@
     : function () { }
 
   var utils = require('./utils')
-  // utils.addEvent
 
   var bin = document.querySelector('#bin')
   var draggedOver = false
@@ -31,6 +30,18 @@
       utils.addEvent(elem, 'dragend', dragEnd)
     })
   }
+
+  var issuesData
+
+  window.fetch('millette--committed-streaker.json')
+    .then(function (response) {
+      return response.json()
+    }).then(function (json) {
+      issuesData = json
+      console.log('parsed json', issuesData)
+    }).catch(function (ex) {
+      console.log('parsing failed', ex)
+    })
 
   setDraggables()
 

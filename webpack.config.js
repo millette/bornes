@@ -6,6 +6,7 @@ const fs = require('fs')
 // npm
 const webpack = require('webpack')
 const ghIssues = require('rollodeqc-gh-repos-issues')
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 const plugins = [ new webpack.ProvidePlugin({
   // move drag-drop-polyfill from entry.js?
@@ -29,6 +30,11 @@ const fetchData = (reponame) => new Promise((resolve, reject) => {
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }))
+} else {
+  plugins.push(new BrowserSyncPlugin(
+    { host: '0.0.0.0', port: 4030, open: false, proxy: 'http://localhost:4040' },
+    { reload: false }
+  ))
 }
 
 fetchData('millette/committed-streaker')
@@ -40,7 +46,7 @@ fetchData('millette/committed-streaker')
 module.exports = {
   entry: ['./entry.js'],
   output: { path: __dirname, filename: 'bundle.js' },
-  devServer: { host: '0.0.0.0', port: 4040 },
+  devServer: { inline: true, host: 'localhost', port: 4040 },
   module: {
     loaders: [
       { test: /\.css?$/, loader: 'style!css' },

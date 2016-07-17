@@ -1,5 +1,5 @@
 (function () {
-  var debugPing = false
+  var debugPing = true
 
   var ping = debugPing
     ? function (a) { console.log(new Date(), a) }
@@ -27,8 +27,6 @@
     }
   })()
 
-  var eat = ['yum!', 'gulp', 'burp!', 'nom']
-  var links = document.querySelectorAll('li')
   var bin = document.querySelector('#bin')
   var draggedOver = false
 
@@ -39,16 +37,24 @@
     ev.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
   }
 
+  var dragEnd = function (ev) {
+    ping('dragend')
+    ping(ev)
+    ping(this)
+  }
+
   var setDraggables = function () {
     var i
     var elem
     var rnd = Math.floor(Math.random() * 1e6)
+    var links = document.querySelectorAll('li')
 
     for (i = 0; i < links.length; ++i) {
       elem = links[i]
       elem.setAttribute('draggable', 'true')
       if (!elem.id) { elem.id = ('dndrnd-' + rnd) + (i + 1) }
       addEvent(elem, 'dragstart', dragStart)
+      addEvent(elem, 'dragend', dragEnd)
     }
   }
 
@@ -79,6 +85,7 @@
 
   addEvent(bin, 'drop', function (e) {
     var y
+    var eat = ['yum!', 'gulp', 'burp!', 'nom']
     var el = document.getElementById(e.dataTransfer.getData('Text'))
     var yum = document.createElement('p')
     yum.style.opacity = 1

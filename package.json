@@ -4,7 +4,7 @@
   "description": "webpack starter project",
   "scripts": {
     "lint": "standard",
-    "start": "webpack-dev-server"
+    "start": "standard && webpack-dev-server"
   },
   "devDependencies": {
     "css-loader": "0.23.1",

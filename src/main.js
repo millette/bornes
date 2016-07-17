@@ -37,8 +37,20 @@
     .then(function (response) {
       return response.json()
     }).then(function (issuesData) {
+      var milestones = {}
+
+      issuesData.forEach(function (z) {
+        if (z.milestone && z.milestone.number) {
+          milestones['milestone-' + z.milestone.number] = z.milestone.title
+        }
+      })
+      var milestonesEl = Object.keys(milestones).map(function (i) {
+        return milestones[i]
+      })
       var ul = document.querySelector('ul#items')
+      console.log('MILES:', milestonesEl)
       console.log('parsed json', issuesData)
+
       issuesData.forEach(function (z) {
         var el = document.createElement('li')
         var txt = 'Issue #' + z.number

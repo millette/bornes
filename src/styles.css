@@ -2,6 +2,40 @@
   font-family: sans-serif;
 }
 
+.label {
+  padding: 0.125em 0.35em;
+}
+
+div {
+  float: left;
+  width: 28%;
+  border: thin solid green;
+  margin: 0.5em;
+  padding: 0.5em;
+}
+
+ul.issues li {
+  list-style: none;
+  margin: 1em 0;
+  background: lightgreen;
+}
+
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+h2 {
+  text-align: center;
+}
+
+ul.issues {
+  background: green;
+  padding: 1em;
+}
+
+/*
 li {
   list-style: none;
   text-decoration: none;
@@ -11,12 +45,6 @@ li {
   border: 3px dashed #999;
   background: lightgreen;
   padding: 10px;
-}
-
-*[draggable=true] {
-  -moz-user-select:none;
-  -khtml-user-drag: element;
-  cursor: move;
 }
 
 *:-khtml-drag {
@@ -54,7 +82,4 @@ ul {
   color: lightgreen;
   text-shadow: #000 2px 2px 2px;
 }
-
-.label {
-  padding: 0 0.35em;
-}
+*/

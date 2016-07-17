@@ -1,4 +1,3 @@
-require('drag-drop-polyfill')
+require('drag-drop-polyfill') // move to webpack.config plugins?
 require('./src/styles.css')
-require('./src/array.from.js')
 require('./src/main.js')

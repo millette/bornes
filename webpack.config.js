@@ -1,6 +1,17 @@
 'use strict'
 
-// const webpack = require('webpack')
+const webpack = require('webpack')
+
+const plugins = [ new webpack.ProvidePlugin({
+  // move drag-drop-polyfill from entry.js?
+  'Array.from': 'imports?this=>global!exports?global.Array.from!array.from',
+  'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
+  'window.fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
+}) ]
+
+if (process.env.NODE_ENV === 'production') {
+  plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }))
+}
 
 module.exports = {
   entry: ['./entry.js'],
@@ -17,5 +28,6 @@ module.exports = {
         ]
       }
     ]
-  }
+  },
+  plugins: plugins
 }

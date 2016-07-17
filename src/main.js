@@ -6,26 +6,8 @@
     ? function (a) { console.log(new Date(), a) }
     : function () { }
 
-  // For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
-  var addEvent = (function () {
-    if (document.addEventListener) {
-      return function (el, type, fn) {
-        if (el && el.nodeName || el === window) {
-          el.addEventListener(type, fn, false)
-        } else if (el && el.length) {
-          Array.from(el).forEach(function (elem) { addEvent(elem, type, fn) })
-        }
-      }
-    } else {
-      return function (el, type, fn) {
-        if (el && el.nodeName || el === window) {
-          el.attachEvent('on' + type, function () { return fn.call(el, window.event) })
-        } else if (el && el.length) {
-          Array.from(el).forEach(function (elem) { addEvent(elem, type, fn) })
-        }
-      }
-    }
-  })()
+  var utils = require('./utils')
+  // utils.addEvent
 
   var bin = document.querySelector('#bin')
   var draggedOver = false
@@ -45,14 +27,14 @@
     Array.from(links).forEach(function (elem, i) {
       elem.setAttribute('draggable', 'true')
       if (!elem.id) { elem.id = ('dndrnd-' + rnd) + (i + 1) }
-      addEvent(elem, 'dragstart', dragStart)
-      addEvent(elem, 'dragend', dragEnd)
+      utils.addEvent(elem, 'dragstart', dragStart)
+      utils.addEvent(elem, 'dragend', dragEnd)
     })
   }
 
   setDraggables()
 
-  addEvent(bin, 'dragover', function (e) {
+  utils.addEvent(bin, 'dragover', function (e) {
     if (!draggedOver) {
       ping('dragover')
       draggedOver = true
@@ -65,19 +47,19 @@
   })
 
   // to get IE to work
-  addEvent(bin, 'dragenter', function (e) {
+  utils.addEvent(bin, 'dragenter', function (e) {
     ping('dragenter')
     this.classList.add('over')
     return false
   })
 
-  addEvent(bin, 'dragleave', function () {
+  utils.addEvent(bin, 'dragleave', function () {
     ping('dragleave')
     draggedOver = false
     this.classList.remove('over')
   })
 
-  addEvent(bin, 'drop', function (e) {
+  utils.addEvent(bin, 'drop', function (e) {
     var y
     var eat = ['yum!', 'gulp', 'burp!', 'nom']
     var el = document.getElementById(e.dataTransfer.getData('Text'))

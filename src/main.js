@@ -1,6 +1,7 @@
 (function () {
   'use strict'
 
+  // npm
   var groupBy = require('lodash.groupby')
 
   var debugPing = false
@@ -11,32 +12,46 @@
 
   var utils = require('./utils')
 
-  var setDraggables = function () {
-    var rnd = Math.floor(Math.random() * 1e6)
-    var links = document.querySelectorAll('ul.issues li')
-
-    var dragStart = function (ev) {
-      ping('dragstart:' + this.id)
-      ev.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be dropable
-      ev.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
-    }
-
-    var dragEnd = function () { ping('dragend') }
-
-    Array.from(links).forEach(function (elem, i) {
-      elem.setAttribute('draggable', 'true')
-      if (!elem.id) { elem.id = ('dndrnd-' + rnd) + (i + 1) }
-      utils.addEvent(elem, 'dragstart', dragStart)
-      utils.addEvent(elem, 'dragend', dragEnd)
+  /*
+  window.fetch('https://api.github.com/users/millette')
+    .then(function (response) {
+      return response.json()
     })
-  }
+    .then(function (user) {
+      console.log('USER:', user)
+    })
+    .catch(function (ex) {
+      console.log('parsing failed', ex)
+    })
+  */
 
   window.fetch('millette--committed-streaker.json')
     .then(function (response) {
       return response.json()
-    }).then(function (issuesData) {
-      var draggedOver = false
+    })
+    .then(function (issuesData) {
+      var setDraggables = function () {
+        var rnd = Math.floor(Math.random() * 1e6)
+        var links = document.querySelectorAll('ul.issues li')
+
+        var dragStart = function (ev) {
+          ping('dragstart:' + this.id)
+          ev.dataTransfer.effectAllowed = 'copy' // only dropEffect='copy' will be dropable
+          ev.dataTransfer.setData('Text', this.id) // required otherwise doesn't work
+        }
+
+        var dragEnd = function () { ping('dragend') }
+
+        Array.from(links).forEach(function (elem, i) {
+          elem.setAttribute('draggable', 'true')
+          if (!elem.id) { elem.id = ('dndrnd-' + rnd) + (i + 1) }
+          utils.addEvent(elem, 'dragstart', dragStart)
+          utils.addEvent(elem, 'dragend', dragEnd)
+        })
+      }
+
       var body = document.querySelector('body')
+      var draggedOver = false
       var byMilestone = groupBy(issuesData, function (x) {
         return x.milestone && x.milestone.number || 'none'
       })
@@ -129,7 +144,8 @@
         */
         return false
       })
-    }).catch(function (ex) {
+    })
+    .catch(function (ex) {
       console.log('parsing failed', ex)
     })
 }())

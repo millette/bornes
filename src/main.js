@@ -1,6 +1,27 @@
+/* global Modernizr */
 (function () {
   'use strict'
 
+  // npm
+  var pagejs = require('page')
+  var transparency = require('transparency')
+  //var Modernizr = require('./modernizr-history.js')
+  var renderAll = transparency.render.bind(null, document.querySelector('html'))
+  // var renderAll = require('transparency').render.bind(null, document.querySelector('html'))
+
+  pagejs('/', function (c) {
+    renderAll({ title: 'home' })
+    console.log('CONTEXT1:', c)
+  })
+
+  pagejs('/p2', function (c) {
+    renderAll({ title: 'p2' })
+    console.log('CONTEXT2:', c)
+  })
+
+  pagejs({ hashbang: !Modernizr.history })
+
+/*
   // npm
   var groupBy = require('lodash.groupby')
 
@@ -12,27 +33,18 @@
 
   var utils = require('./utils')
 
-  /*
-  window.fetch('https://api.github.com/users/millette')
-    .then(function (response) {
-      return response.json()
-    })
-    .then(function (user) {
-      console.log('USER:', user)
-    })
-    .catch(function (ex) {
-      console.log('parsing failed', ex)
-    })
-  */
-
   // window.fetch('millette--committed-streaker.json')
   window.fetch('https://api.github.com/repos/millette/committed-streaker/issues')
     .then(function (response) {
+      var k
+      // console.log('response.headers:', Object.keys(response.headers.getAll()))
+      for (k of response.headers.keys()) {
+         console.log(k, response.headers.getAll(k))
+      }
       return response.json()
     })
     .then(function (issuesData) {
       var setDraggables = function () {
-        var rnd = Math.floor(Math.random() * 1e6)
         var links = document.querySelectorAll('ul.issues li')
 
         var dragStart = function (ev) {
@@ -45,7 +57,6 @@
 
         Array.from(links).forEach(function (elem, i) {
           elem.setAttribute('draggable', 'true')
-          if (!elem.id) { elem.id = ('dndrnd-' + rnd) + (i + 1) }
           utils.addEvent(elem, 'dragstart', dragStart)
           utils.addEvent(elem, 'dragend', dragEnd)
         })
@@ -99,7 +110,6 @@
         return false
       })
 
-      // to get IE to work
       utils.addEvent(bin, 'dragenter', function (e) {
         ping('dragenter')
         this.classList.add('over')
@@ -113,40 +123,20 @@
       })
 
       utils.addEvent(bin, 'drop', function (e) {
-        // var y
-        // var eat = ['yum!', 'gulp', 'burp!', 'nom']
         var el = document.getElementById(e.dataTransfer.getData('Text'))
-        // var yum = document.createElement('p')
-        // yum.style.opacity = 1
         ping('drop')
         draggedOver = false
-
         // stops the browser from redirecting...why???
         e.preventDefault()
         if (e.stopPropagation) { e.stopPropagation() }
 
         this.appendChild(el)
-        // el.parentNode.removeChild(el)
-        // stupid yum text + fade effect
         this.classList.remove('over')
-        /*
-        yum.innerHTML = eat[parseInt(Math.random() * eat.length)]
-        y = yum.cloneNode(true)
-        bin.appendChild(y)
-        setTimeout(function () {
-          var t = setInterval(function () {
-            if (y.style.opacity <= 0) {
-              clearInterval(t)
-            } else {
-              y.style.opacity -= 0.1
-            }
-          }, 50)
-        }, 250)
-        */
         return false
       })
     })
     .catch(function (ex) {
       console.log('parsing failed', ex)
     })
+*/
 }())

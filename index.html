@@ -3,19 +3,19 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Webpack Starter Project</title>
+    <title data-bind="title">Webpack Starter Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="/modernizr-history.js"></script>
     <script>
         var iosDragDropShim = { enableEnterLeave: true }
     </script>
   </head>
   <body>
-    <article>
-      <p>Drag the list items over the dustbin, and drop them to have the bin eat the item.</p>
-      <h4>Notes</h2>
-      <p>The blue bordered item is a child inside a draggable element.
-        If you drag the child, we should still drag the whole element.</p>
-    </article>
-    <script src="bundle.js"></script>
+      <h1 class="title">Hi</h1>
+      <div id="menu">
+        <p><a href='/'>HOME</a></p>
+        <p><a href='/p2'>p2</a></p>
+      </div>
+    <script src="/bundle.js"></script>
   </body>
 </html>

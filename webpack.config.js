@@ -50,7 +50,7 @@ fetchData('millette/committed-streaker')
 module.exports = {
   entry: ['./entry.js'],
   output: { path: __dirname, filename: 'bundle.js' },
-  devServer: { inline: true, host: 'localhost', port: 4040 },
+  devServer: { inline: true, hot: true, historyApiFallback: true, host: 'localhost', port: 4040 },
   module: {
     loaders: [
       { test: /\.css?$/, loader: 'style!css' },

@@ -25,7 +25,8 @@
     })
   */
 
-  window.fetch('millette--committed-streaker.json')
+  // window.fetch('millette--committed-streaker.json')
+  window.fetch('https://api.github.com/repos/millette/committed-streaker/issues')
     .then(function (response) {
       return response.json()
     })

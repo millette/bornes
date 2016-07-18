@@ -1,12 +1,12 @@
 'use strict'
 
 // core
-const fs = require('fs')
+// const fs = require('fs')
 
 // npm
 const webpack = require('webpack')
-const ghIssues = require('rollodeqc-gh-repos-issues')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+// const ghIssues = require('rollodeqc-gh-repos-issues')
 
 const plugins = [ new webpack.ProvidePlugin({
   // move drag-drop-polyfill from entry.js?
@@ -15,6 +15,7 @@ const plugins = [ new webpack.ProvidePlugin({
   'window.fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
 }) ]
 
+/*
 const fetchData = (reponame) => new Promise((resolve, reject) => {
   const fn = './' + reponame.replace('/', '--') + '.json'
   try {
@@ -27,6 +28,7 @@ const fetchData = (reponame) => new Promise((resolve, reject) => {
       .catch((err) => reject(err))
   }
 })
+*/
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }))
@@ -37,11 +39,13 @@ if (process.env.NODE_ENV === 'production') {
   ))
 }
 
+/*
 fetchData('millette/committed-streaker')
   .catch((err) => {
     console.log('ERR:', err)
     process.exit(err.statusCode || 500)
   })
+*/
 
 module.exports = {
   entry: ['./entry.js'],

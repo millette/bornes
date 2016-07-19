@@ -1,4 +1,4 @@
-/* global Modernizr, AutoComplete */
+/* global Modernizr */
 (function () {
   'use strict'
 
@@ -51,11 +51,6 @@
     renderBody({ title: title })
     setFocus(id)
   }
-
-  AutoComplete({
-    EmptyMessage: 'No item found',
-    Url: '/yum.json'
-  }, '#user input')
 
   utils.addEvent(homeFormEl, 'submit', function (ev) {
     var d = new window.FormData(this)
@@ -115,13 +110,6 @@
 */
 
   pagejs('/token/:token', function (c) {
-    /*
-    AutoComplete({
-      EmptyMessage: 'No item found',
-      Url: '/yum.json'
-    }, '#user input')
-    */
-
     userEl.style.display = 'block'
     if (c.state.repos) {
       renderUser({ repos: c.state.repos, json: JSON.stringify(c, null, ' ') })
@@ -142,13 +130,6 @@
   })
 
   pagejs('/user/:username', function (c) {
-    /*
-    AutoComplete({
-      EmptyMessage: 'No item found',
-      Url: '/yum.json'
-    }, '#user input')
-    */
-
     userEl.style.display = 'block'
     if (c.state.repos) {
       renderUser({ repos: c.state.repos, json: JSON.stringify(c, null, ' ') })

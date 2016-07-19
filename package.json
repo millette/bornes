@@ -9,7 +9,6 @@
   },
   "devDependencies": {
     "array.from": "^1.0.2",
-    "autocomplete-js": "^2.0.3",
     "browser-sync": "^2.13.0",
     "browser-sync-webpack-plugin": "^1.1.0",
     "css-loader": "0.23.1",

@@ -5,6 +5,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title data-bind="title">Webpack Starter Project</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/node_modules/autocomplete-js/dist/production/autocomplete.css">
     <script src="/modernizr-history.js"></script>
     <script>
         var iosDragDropShim = { enableEnterLeave: true }
@@ -12,10 +13,35 @@
   </head>
   <body>
       <h1 class="title">Hi</h1>
-      <div id="menu">
+      <!-- div id="menu">
         <p><a href='/'>HOME</a></p>
         <p><a href='/p2'>p2</a></p>
+      </div -->
+      <div id="app">
+        <div id="home">
+          <form>
+            <label>username <input type="text" name="username"></label><br>
+            or <label>token <input type="text" name="token"></label><br>
+            <input type="submit">
+          </form>
+        </div>
+        <!-- div id="p2">
+          <div><p class="txt">Zazaza</p></div>
+          <pre class="json"></pre>
+        </div>
+        <div id="p3">
+          <div><p class="txt">Zazaza</p></div>
+          <pre class="json"></pre>
+        </div -->
+        <div id="user">
+          <form>
+            <label>repo <input required type="text" name="repo"></label>
+          </form>
+          <div><pre class="repos">Zazaza</pre></div>
+          <pre class="json"></pre>
+        </div>
       </div>
+    <script src="/node_modules/autocomplete-js/dist/production/autocomplete.js"></script>
     <script src="/bundle.js"></script>
   </body>
 </html>

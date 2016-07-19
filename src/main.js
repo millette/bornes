@@ -1,25 +1,173 @@
-/* global Modernizr */
+/* global Modernizr, AutoComplete */
 (function () {
   'use strict'
 
   // npm
   var pagejs = require('page')
   var transparency = require('transparency')
-  //var Modernizr = require('./modernizr-history.js')
-  var renderAll = transparency.render.bind(null, document.querySelector('html'))
-  // var renderAll = require('transparency').render.bind(null, document.querySelector('html'))
+  // var jQuery = require('jquery')
+  // var at = require('jquery-autocomplete')
 
-  pagejs('/', function (c) {
-    renderAll({ title: 'home' })
-    console.log('CONTEXT1:', c)
+  // self
+  var utils = require('./utils')
+
+  // console.log('jq:', jQuery)
+  // console.log('jq-at:', at)
+
+  var homeEl = document.querySelector('#home')
+  var homeFormEl = document.querySelector('#home form')
+  var userFormEl = document.querySelector('#user form')
+  // var p2El = document.querySelector('#p2')
+  // var p3El = document.querySelector('#p3')
+  var userEl = document.querySelector('#user')
+  var appEls = document.querySelectorAll('#app > div')
+
+  var makeRenderer = function (sel) {
+    if (typeof sel === 'string') { sel = document.querySelector(sel) }
+    return transparency.render.bind(null, sel)
+  }
+
+  var renderHead = makeRenderer('head')
+  var renderBody = makeRenderer('body')
+  // var renderP2 = makeRenderer(p2El)
+  // var renderP3 = makeRenderer(p3El)
+  var renderUser = makeRenderer(userEl)
+
+  var hideAll = function (c, next) {
+    Array.from(appEls).forEach(function (elem) { elem.style.display = 'none' })
+    if (next) { next() }
+  }
+
+  var setFocus = function (id) {
+    var g
+    if (!id) { return }
+    g = document.querySelector('#' + id + ' input[type="text"]')
+    if (g) { g.focus() }
+  }
+
+  var renderTitle = function (c, title, id) {
+    c.title = title
+    renderHead({ title: title })
+    renderBody({ title: title })
+    setFocus(id)
+  }
+
+  AutoComplete({
+    EmptyMessage: 'No item found',
+    Url: '/yum.json'
+  }, '#user input')
+
+  utils.addEvent(homeFormEl, 'submit', function (ev) {
+    var d = new window.FormData(this)
+    var username = d.get('username')
+    var token
+    // var x = {}
+    // var k
+    ev.preventDefault()
+    // for (k of d.keys()) { if (d.get(k)) { x[k] = d.get(k) } }
+    // pagejs.redirect('/user/' + x.username)
+    if (username) {
+      pagejs.redirect('/user/' + username)
+    } else {
+      token = d.get('token')
+      if (token) { pagejs.redirect('/token/' + token) }
+    }
   })
 
+  utils.addEvent(userFormEl, 'submit', function (ev) {
+    var d = new window.FormData(this)
+    var x = {}
+    var k
+
+    ev.preventDefault()
+    for (k of d.keys()) { if (d.get(k)) { x[k] = d.get(k) } }
+    console.log('X:', x)
+  })
+
+  hideAll()
+  pagejs.exit(hideAll)
+
+  pagejs('/', function (c) {
+    homeEl.style.display = 'block'
+    renderTitle(c, 'home', 'home')
+  })
+
+/*
   pagejs('/p2', function (c) {
-    renderAll({ title: 'p2' })
-    console.log('CONTEXT2:', c)
+    if (!c.state.rnd) {
+      c.state.rnd = 'RON-' + Math.floor(100 * Math.random())
+      // c.save()
+    }
+    p2El.style.display = 'block'
+    renderP2({ txt: c.state.rnd, json: JSON.stringify(c, null, ' ') })
+    renderTitle(c, 'p2')
+  })
+
+  pagejs('/p3', function (c) {
+    if (!c.state.rnd) {
+      c.state.rnd = 'RON-' + Math.floor(100 * Math.random())
+      // c.save()
+    }
+    p3El.style.display = 'block'
+    renderP3({ txt: c.state.rnd, json: JSON.stringify(c, null, ' ') })
+    renderTitle(c, 'p3')
+  })
+*/
+
+  pagejs('/token/:token', function (c) {
+    /*
+    AutoComplete({
+      EmptyMessage: 'No item found',
+      Url: '/yum.json'
+    }, '#user input')
+    */
+
+    userEl.style.display = 'block'
+    if (c.state.repos) {
+      renderUser({ repos: c.state.repos, json: JSON.stringify(c, null, ' ') })
+      renderTitle(c, 'user', 'user')
+    } else {
+      console.log('CC:', c)
+      window.fetch('https://api.github.com/user/repos', {
+        headers: { authorization: 'token ' + c.params.token }
+      })
+        .then(function (response) { return response.json() })
+        .then(function (a) {
+          c.state.repos = JSON.stringify(a.map(function (x) { return x.full_name }), null, ' ')
+          c.save()
+          renderUser({ repos: c.state.repos, json: JSON.stringify(c, null, ' ') })
+          renderTitle(c, 'user', 'user')
+        })
+    }
+  })
+
+  pagejs('/user/:username', function (c) {
+    /*
+    AutoComplete({
+      EmptyMessage: 'No item found',
+      Url: '/yum.json'
+    }, '#user input')
+    */
+
+    userEl.style.display = 'block'
+    if (c.state.repos) {
+      renderUser({ repos: c.state.repos, json: JSON.stringify(c, null, ' ') })
+      renderTitle(c, 'user', 'user')
+    } else {
+      console.log('CC:', c)
+      window.fetch('https://api.github.com/users/' + c.params.username + '/repos')
+        .then(function (response) { return response.json() })
+        .then(function (a) {
+          c.state.repos = JSON.stringify(a.map(function (x) { return x.full_name }), null, ' ')
+          c.save()
+          renderUser({ repos: c.state.repos, json: JSON.stringify(c, null, ' ') })
+          renderTitle(c, 'user', 'user')
+        })
+    }
   })
 
   pagejs({ hashbang: !Modernizr.history })
+}())
 
 /*
   // npm
@@ -30,8 +178,6 @@
   var ping = debugPing
     ? function (a) { console.log(new Date(), a) }
     : function () { }
-
-  var utils = require('./utils')
 
   // window.fetch('millette--committed-streaker.json')
   window.fetch('https://api.github.com/repos/millette/committed-streaker/issues')
@@ -138,5 +284,5 @@
     .catch(function (ex) {
       console.log('parsing failed', ex)
     })
-*/
 }())
+*/

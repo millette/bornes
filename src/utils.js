@@ -55,6 +55,11 @@ var ghFetch = function (u, token, doc) {
     })
 }
 
+var fetchIssues = function (full_name, token, doc) {
+  // https://api.github.com/repos/millette/committed-streaker/issues
+  return ghFetch('https://api.github.com/repos/' + full_name + '/issues', token, doc)
+}
+
 var fetchUser = function (token, doc) {
   return ghFetch('https://api.github.com/user', token, doc)
     .then(function (j) {
@@ -125,6 +130,8 @@ var setupHomeForm = function () {
   })
 }
 
+// var dostuff = function () { return Promise.resolve() }
+
 var repoPage = function (path, title, sel, ctx, next) {
   var found = false
   var full_name = [ctx.params.login, ctx.params.repo].join('/')
@@ -134,8 +141,17 @@ var repoPage = function (path, title, sel, ctx, next) {
     appData.profile.repositories.forEach(function (repository) {
       if (found) { return }
       if (repository.repository.full_name === full_name) {
-        $(sel).render(repository)
         found = true
+        if (repository.issues) {
+          $(sel).render(repository)
+        } else {
+          fetchIssues(full_name, appData.token, repository)
+            .then(function (ya) {
+              console.log('DOSTUFF', ya)
+              repository.issues = ya
+              $(sel).render(repository)
+            })
+        }
       }
     })
   }

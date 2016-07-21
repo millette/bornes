@@ -111,14 +111,22 @@ var setupHomeForm = function () {
         console.log('REPOS:', x[1])
         appData.token = token
         appData.profile = x[0]
-        appData.profile.repositories = x[1].map(function (y) {
-          return { repository: y }
-        })
+        appData.profile.repositories = x[1]
+          .filter(function (y) {
+            return y.open_issues_count
+          })
+          .map(function (y) {
+            return { repository: y }
+          })
         pagejs.redirect('/user/' + appData.profile.login)
       })
 
       .catch(function (error) { showError(error) })
   })
+}
+
+var repoPage = function () {
+  if (!appData || !appData.profile || !appData.profile.login) { return pagejs.redirect('/') }
 }
 
 var userPage = (function () {
@@ -127,6 +135,13 @@ var userPage = (function () {
       avatar_url: {
         alt: function () { return 'Avatar de ' + this.login },
         src: function () { return this.avatar_url + '&s=80' }
+      },
+      repositories: {
+        repository: {
+          full_name: {
+            href: function () { return '/user/' + this.full_name }
+          }
+        }
       }
     }
   }
@@ -143,6 +158,7 @@ var init = function (mod) {
   pagejs.exit(hideAll)
   setupPage('/', 'Accueil', '#home')
   setupPage('/user/:login', 'Utilisateur', '#user', userPage)
+  setupPage('/user/:login/:repo', 'Projet', '#projet', repoPage)
   pagejs({ hashbang: !mod.history })
 }
 

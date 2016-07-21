@@ -47,6 +47,22 @@ var ghPatch = function (u, token, body) {
     })
 }
 
+var showError = (function () {
+  var $app = $('#app')
+  var $error = $('#error')
+  return function (error) {
+    var errorStr
+    $error.show()
+    if (typeof error === 'string') { return $app.render({ error: error }) }
+    errorStr = error.toString()
+    if (error._headers['x-ratelimit-remaining']) {
+      errorStr += ' - Il vous reste ' + error._headers['x-ratelimit-remaining'] + ' tentatives jusqu\'à '
+      errorStr += new Date(1000 * parseInt(error._headers['x-ratelimit-reset'], 10))
+    }
+    $app.render({ error: errorStr })
+  }
+}())
+
 // FIXME: Use jQuery instead
 var addEvent = (function () {
   if (document.addEventListener) {
@@ -167,6 +183,8 @@ var setupDragDrop = function (issuesData) {
     draggedOver = false
     return ghPatch(u, appData.token, { milestone: milestoneNumber })
       .then(function (a) {
+        // FIXME: we must invalidate appData issues
+        // or better yet, change issue milestone
         self.classList.remove('over')
         console.log('AAA:', a)
         self.appendChild(el)
@@ -175,6 +193,7 @@ var setupDragDrop = function (issuesData) {
       .catch(function (err) {
         self.classList.remove('over')
         console.log('ERR:', err)
+        showError(err)
         return false
       })
   })
@@ -246,22 +265,6 @@ var fetchUser = function (token, doc) {
 var fetchRepositories = function (token, doc) {
   return ghFetch('https://api.github.com/user/repos', token, doc)
 }
-
-var showError = (function () {
-  var $app = $('#app')
-  var $error = $('#error')
-  return function (error) {
-    var errorStr
-    $error.show()
-    if (typeof error === 'string') { return $app.render({ error: error }) }
-    errorStr = error.toString()
-    if (error._headers['x-ratelimit-remaining']) {
-      errorStr += ' - Il vous reste ' + error._headers['x-ratelimit-remaining'] + ' tentatives jusqu\'à '
-      errorStr += new Date(1000 * parseInt(error._headers['x-ratelimit-reset'], 10))
-    }
-    $app.render({ error: errorStr })
-  }
-}())
 
 var setupHomeForm = function () {
   var $homeForm = $('#home form')

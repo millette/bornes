@@ -1,34 +1,14 @@
 'use strict'
 
-// core
-// const fs = require('fs')
-
 // npm
 const webpack = require('webpack')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
-// const ghIssues = require('rollodeqc-gh-repos-issues')
 
 const plugins = [ new webpack.ProvidePlugin({
   // move drag-drop-polyfill from entry.js?
-  'Array.from': 'imports?this=>global!exports?global.Array.from!array.from',
   'Promise': 'imports?this=>global!exports?global.Promise!es6-promise',
   'window.fetch': 'imports?this=>global!exports?global.fetch!whatwg-fetch'
 }) ]
-
-/*
-const fetchData = (reponame) => new Promise((resolve, reject) => {
-  const fn = './' + reponame.replace('/', '--') + '.json'
-  try {
-    resolve(require(fn))
-  } catch (e) {
-    ghIssues(reponame)
-      .then((data) => fs.writeFile(
-        fn, JSON.stringify(data, null, ' '), 'utf-8', (err) => err ? reject(err) : resolve(data)
-      ))
-      .catch((err) => reject(err))
-  }
-})
-*/
 
 if (process.env.NODE_ENV === 'production') {
   plugins.push(new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }))
@@ -38,14 +18,6 @@ if (process.env.NODE_ENV === 'production') {
     { reload: false }
   ))
 }
-
-/*
-fetchData('millette/committed-streaker')
-  .catch((err) => {
-    console.log('ERR:', err)
-    process.exit(err.statusCode || 500)
-  })
-*/
 
 module.exports = {
   entry: ['./entry.js'],

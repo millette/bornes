@@ -11,33 +11,24 @@
     </script>
   </head>
   <body>
-      <h1 class="title">Hi</h1>
-      <!-- div id="menu">
-        <p><a href='/'>HOME</a></p>
-        <p><a href='/p2'>p2</a></p>
-      </div -->
+      <h1><a href='/'>HOME</a></h1>
+      <h2 class="title">Hi</h2>
+      <div id="menu">
+        <a href='/user/millette'>cil</a>
+      </div>
       <div id="app">
-        <div id="home">
+        <div id="error"></div>
+        <div id="home" class="page">
+          <p>Utilisez un <a href="https://github.com/settings/tokens">token Github personnel</a>, aucun droit supplémentaire requis.</p>
           <form>
-            <label>username <input type="text" name="username"></label><br>
-            or <label>token <input type="text" name="token"></label><br>
+            <label>token <input type="text" name="token"></label>
             <input type="submit">
           </form>
+          <pre class="json">pH</pre>
         </div>
-        <!-- div id="p2">
-          <div><p class="txt">Zazaza</p></div>
-          <pre class="json"></pre>
-        </div>
-        <div id="p3">
-          <div><p class="txt">Zazaza</p></div>
-          <pre class="json"></pre>
-        </div -->
-        <div id="user">
-          <form>
-            <label>repo <input required type="text" name="repo"></label>
-          </form>
-          <div><pre class="repos">Zazaza</pre></div>
-          <pre class="json"></pre>
+        <div id="user" class="page">
+          <p>Oh la!</p>
+          <pre class="json">pU</pre>
         </div>
       </div>
     <script src="/bundle.js"></script>

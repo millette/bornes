@@ -2,85 +2,8 @@ body {
   font-family: sans-serif;
 }
 
-/*
-.label {
-  padding: 0.125em 0.35em;
-}
-
-div {
-  float: left;
-  width: 15em;
+#error {
   margin: 1em;
-}
-
-ul.issues li {
-  list-style: none;
-  margin: 1em 0;
-  background: lightgreen;
-  padding: 0.25em;
-}
-
-*[draggable=true] {
-  -moz-user-select:none;
-  -khtml-user-drag: element;
-  cursor: move;
-}
-
-h2 {
-  text-align: center;
-}
-
-ul.issues {
-  background: green;
   padding: 1em;
+  border: thick dashed red;
 }
-*/
-
-/*
-li {
-  list-style: none;
-  text-decoration: none;
-  color: #000;
-  margin: 10px;
-  width: 17em;
-  border: 3px dashed #999;
-  background: lightgreen;
-  padding: 10px;
-}
-
-*:-khtml-drag {
-  background-color: rgba(238,238,238, 0.5);
-}
-
-li:hover:after {
-  content: ' (drag me)';
-}
-
-ul {
-  margin-left: 26em;
-}
-
-#bin {
-  position: relative;
-  float: left;
-  width: 24em;
-  border: 5px solid #000;
-  background: lightblue;
-  padding-bottom: 5em;
-}
-
-#bin.over {
-  background: yellow;
-}
-
-#bin p {
-  font-weight: bold;
-  text-align: center;
-  position: absolute;
-  bottom: 0;
-  width: 166px;
-  font-size: 32px;
-  color: lightgreen;
-  text-shadow: #000 2px 2px 2px;
-}
-*/

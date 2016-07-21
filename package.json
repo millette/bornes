@@ -8,7 +8,6 @@
     "make": "standard && NODE_ENV=production webpack"
   },
   "devDependencies": {
-    "array.from": "^1.0.2",
     "browser-sync": "^2.13.0",
     "browser-sync-webpack-plugin": "^1.1.0",
     "css-loader": "0.23.1",

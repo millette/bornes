@@ -83,6 +83,7 @@ var zzz = function (issuesData) {
       el.innerHTML = txt
       zone.appendChild(el)
     })
+    div.className = 'milestone'
     div.appendChild(h2)
     div.appendChild(zone)
     body.appendChild(div)
@@ -252,6 +253,7 @@ var repoPage = function (path, title, sel, ctx, next) {
       if (found) { return }
       if (repository.repository.full_name === full_name) {
         found = true
+        $(sel + ' > div.milestone').remove()
         if (repository.issues) {
           $(sel).render(repository)
           zzz(repository.issues)

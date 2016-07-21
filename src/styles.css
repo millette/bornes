@@ -35,3 +35,7 @@ ul.issues .label {
   width: 15em;
   margin: 1em;
 }
+
+#repositorypage > div > h2 {
+  text-align: center;
+}

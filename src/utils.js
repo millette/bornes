@@ -159,29 +159,24 @@ var setupDragDrop = function (issuesData) {
     var u = ['https://api.github.com/repos', fullName, 'issues', issueNumber].join('/')
     ping('drop')
     ping(u)
-    // ping(id)
-    // ping(el)
-    /*
-    ping(issueNumber)
-    ping(fullName)
-    ping(self)
-    */
 
     // stops the browser from redirecting...why???
     e.preventDefault()
     if (e.stopPropagation) { e.stopPropagation() }
 
-    self.classList.remove('over')
     draggedOver = false
-    ghPatch(u, appData.token, { milestone: milestoneNumber })
+    return ghPatch(u, appData.token, { milestone: milestoneNumber })
       .then(function (a) {
+        self.classList.remove('over')
         console.log('AAA:', a)
         self.appendChild(el)
+        return false
       })
       .catch(function (err) {
+        self.classList.remove('over')
         console.log('ERR:', err)
+        return false
       })
-    return false
   })
 }
 

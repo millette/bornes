@@ -24,7 +24,7 @@ var setupPage = (function () {
       ctx.title = title
       $head.render({ title: title })
       $body.render({ title: title })
-      if (typeof more === 'function') { more() }
+      if (typeof more === 'function') { more(path, title, sel, ctx, next) }
       $sel.show()
       $(sel + ' input[type="text"]').focus()
     })
@@ -99,11 +99,20 @@ var setupHomeForm = function () {
   })
 }
 
-var more2 = function () {
-  console.log('more... 2')
-  if (!appData || !appData.profile || !appData.profile.login) { return pagejs.redirect('/') }
-  $('#user').render({ json: JSON.stringify(appData, null, ' ') })
-}
+var userPage = (function () {
+  var directives = {
+    profile: {
+      avatar_url: {
+        alt: function () { return 'Avatar de ' + this.login },
+        src: function () { return this.avatar_url + '&s=80' }
+      }
+    }
+  }
+  return function (path, title, sel, ctx, next) {
+    if (!appData || !appData.profile || !appData.profile.login) { return pagejs.redirect('/') }
+    $('#user').render(appData, directives)
+  }
+}())
 
 var init = function (mod) {
   appData = { }
@@ -111,7 +120,7 @@ var init = function (mod) {
   setupHomeForm()
   pagejs.exit(hideAll)
   setupPage('/', 'Accueil', '#home')
-  setupPage('/user/:login', 'Utilisateur', '#user', more2)
+  setupPage('/user/:login', 'Utilisateur', '#user', userPage)
   pagejs({ hashbang: !mod.history })
 }
 

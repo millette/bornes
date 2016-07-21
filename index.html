@@ -12,23 +12,28 @@
   </head>
   <body>
       <h1><a href='/'>HOME</a></h1>
-      <h2 class="title">Hi</h2>
-      <div id="menu">
-        <a href='/user/millette'>cil</a>
-      </div>
+      <h2 class="title">Page...</h2>
+      <a href='/user/millette'>user/millette</a>
+      <p>Outil JavaScript côté client pour gérer les <i>issues</i> d'un projet GitHub.
+      Tous les échanges d'information se font entre votre fureteur (le client)
+      et Github. Une fois que cette page est chargée du serveur <a href="/">RoLLodeQc</a>,
+      aucun autre échange avec ce dernier ne sera effectué.
+      </p>
       <div id="app">
         <div id="error"></div>
-        <div id="home" class="page">
+        <div id="home">
           <p>Utilisez un <a href="https://github.com/settings/tokens">token Github personnel</a>, aucun droit supplémentaire requis.</p>
           <form>
             <label>token <input type="text" name="token"></label>
             <input type="submit">
           </form>
-          <pre class="json">pH</pre>
         </div>
-        <div id="user" class="page">
-          <p>Oh la!</p>
-          <pre class="json">pU</pre>
+        <div id="user">
+          <div class="profile">
+              <h3 class="name"></h3>
+              <img class="avatar_url">
+              <p class="bio"></p>
+          </div>
         </div>
       </div>
     <script src="/bundle.js"></script>

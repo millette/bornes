@@ -6,7 +6,7 @@ var groupBy = require('lodash.groupby')
 var $ = require('jquery')
 $.fn.render = require('transparency').jQueryPlugin
 
-var debugPing = true
+var debugPing = false
 
 var ping = debugPing
   ? function (a) { console.log(new Date(), a) }
@@ -14,9 +14,8 @@ var ping = debugPing
 
 var appData
 
+// FIXME: Use jQuery instead
 var addEvent = (function () {
-  'use strict'
-
   if (document.addEventListener) {
     return function (el, type, fn) {
       if (el && el.nodeName || el === window) {
@@ -36,7 +35,8 @@ var addEvent = (function () {
   }
 })()
 
-var zzz = function (issuesData) {
+// FIXME: Use Transparency or jQuery where possible (addEvent, etc.)
+var setupDragDrop = function (issuesData) {
   var setDraggables = function () {
     var links = document.querySelectorAll('ul.issues li')
 
@@ -61,7 +61,7 @@ var zzz = function (issuesData) {
     return x.milestone && x.milestone.number || 'none'
   })
 
-  console.log('byMilestone:', byMilestone)
+  // console.log('byMilestone:', byMilestone)
 
   Object.keys(byMilestone).forEach(function (milestoneNumber) {
     // console.log('ML:', milestoneNumber)
@@ -88,7 +88,7 @@ var zzz = function (issuesData) {
     div.appendChild(zone)
     body.appendChild(div)
   })
-  console.log('parsed json', issuesData)
+  // console.log('parsed json', issuesData)
   setDraggables()
   var bin = document.querySelectorAll('ul.issues')
 
@@ -253,25 +253,24 @@ var repoPage = function (path, title, sel, ctx, next) {
       if (found) { return }
       if (repository.repository.full_name === fullName) {
         found = true
+        // FIXME: memory leak regarding DnD events?
         $(sel + ' > div.milestone').remove()
         if (repository.issues) {
           $(sel).render(repository)
-          zzz(repository.issues)
+          setupDragDrop(repository.issues)
         } else {
           fetchIssues(fullName, appData.token, repository)
             .then(function (ya) {
-              console.log('DOSTUFF', ya)
+              // console.log('DOSTUFF', ya)
               repository.issues = ya
               $(sel).render(repository)
-              zzz(repository.issues)
+              setupDragDrop(repository.issues)
             })
         }
       }
     })
   }
-  if (!found) {
-    showError('Il n\'y a rien ici.')
-  }
+  if (!found) { showError('Il n\'y a rien ici.') }
 }
 
 var userPage = (function () {

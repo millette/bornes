@@ -178,8 +178,8 @@ var ghFetch = function (u, token, doc) {
     })
 }
 
-var fetchIssues = function (full_name, token, doc) {
-  return ghFetch('https://api.github.com/repos/' + full_name + '/issues', token, doc)
+var fetchIssues = function (fullName, token, doc) {
+  return ghFetch('https://api.github.com/repos/' + fullName + '/issues', token, doc)
 }
 
 var fetchUser = function (token, doc) {
@@ -245,20 +245,20 @@ var setupHomeForm = function () {
 
 var repoPage = function (path, title, sel, ctx, next) {
   var found = false
-  var full_name = [ctx.params.login, ctx.params.repo].join('/')
+  var fullName = [ctx.params.login, ctx.params.repo].join('/')
   if (appData && ctx && ctx.params && ctx.params.login &&
     ctx.params.repo && appData.profile && appData.profile.login &&
     appData.profile.repositories && appData.profile.repositories.length) {
     appData.profile.repositories.forEach(function (repository) {
       if (found) { return }
-      if (repository.repository.full_name === full_name) {
+      if (repository.repository.full_name === fullName) {
         found = true
         $(sel + ' > div.milestone').remove()
         if (repository.issues) {
           $(sel).render(repository)
           zzz(repository.issues)
         } else {
-          fetchIssues(full_name, appData.token, repository)
+          fetchIssues(fullName, appData.token, repository)
             .then(function (ya) {
               console.log('DOSTUFF', ya)
               repository.issues = ya

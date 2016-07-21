@@ -108,7 +108,7 @@ var setupHomeForm = function () {
       fetchRepositories(token, appData && token === appData.token ? appData.profile.repositories : false)
     ])
       .then(function (x) {
-        console.log('REPOS:', x[1])
+        // console.log('REPOS:', x[1])
         appData.token = token
         appData.profile = x[0]
         appData.profile.repositories = x[1]
@@ -125,8 +125,21 @@ var setupHomeForm = function () {
   })
 }
 
-var repoPage = function () {
-  if (!appData || !appData.profile || !appData.profile.login) { return pagejs.redirect('/') }
+var repoPage = function (path, title, sel, ctx, next) {
+  var found = false
+  var full_name = [ctx.params.login, ctx.params.repo].join('/')
+  if (appData && ctx && ctx.params && ctx.params.login &&
+    ctx.params.repo && appData.profile && appData.profile.login &&
+    appData.profile.repositories && appData.profile.repositories.length) {
+    appData.profile.repositories.forEach(function (repository) {
+      if (found) { return }
+      if (repository.repository.full_name === full_name) {
+        $(sel).render(repository)
+        found = true
+      }
+    })
+  }
+  if (!found) { return showError('Il n\'y a rien ici.') }
 }
 
 var userPage = (function () {
@@ -138,16 +151,14 @@ var userPage = (function () {
       },
       repositories: {
         repository: {
-          full_name: {
-            href: function () { return '/user/' + this.full_name }
-          }
+          full_name: { href: function () { return '/user/' + this.full_name } }
         }
       }
     }
   }
   return function (path, title, sel, ctx, next) {
     if (!appData || !appData.profile || !appData.profile.login) { return pagejs.redirect('/') }
-    $('#user').render(appData, directives)
+    $(sel).render(appData, directives)
   }
 }())
 
@@ -158,7 +169,7 @@ var init = function (mod) {
   pagejs.exit(hideAll)
   setupPage('/', 'Accueil', '#home')
   setupPage('/user/:login', 'Utilisateur', '#user', userPage)
-  setupPage('/user/:login/:repo', 'Projet', '#projet', repoPage)
+  setupPage('/user/:login/:repo', 'Projet', '#repositorypage', repoPage)
   pagejs({ hashbang: !mod.history })
 }
 

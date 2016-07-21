@@ -6,13 +6,46 @@ var groupBy = require('lodash.groupby')
 var $ = require('jquery')
 $.fn.render = require('transparency').jQueryPlugin
 
-var debugPing = false
+var debugPing = true
 
 var ping = debugPing
   ? function (a) { console.log(new Date(), a) }
   : function () { }
 
 var appData
+
+var ghPatch = function (u, token, body) {
+  var headers
+  var requestHeaders = {
+    authorization: 'token ' + token,
+    'content-type': 'application/json'
+  }
+  return window.fetch(u, {
+    method: 'PATCH',
+    body: JSON.stringify(body),
+    headers: requestHeaders
+  })
+    .then(function (response) {
+      var cur
+      var er
+      var it = response.headers.keys()
+      headers = { }
+      while ((cur = it.next())) {
+        if (cur.done) { break }
+        headers[cur.value] = response.headers.get(cur.value)
+      }
+      if (response.status !== 200) {
+        er = new Error('Unable to PATCH: ' + response.status)
+        er._headers = headers
+        throw er
+      }
+      return response.json()
+    })
+    .then(function (j) {
+      if (headers) { j._headers = headers }
+      return j
+    })
+}
 
 // FIXME: Use jQuery instead
 var addEvent = (function () {
@@ -94,7 +127,7 @@ var setupDragDrop = function (issuesData) {
 
   addEvent(bin, 'dragover', function (e) {
     if (!draggedOver) {
-      ping('dragover')
+      // ping('dragover')
       draggedOver = true
     }
 
@@ -105,27 +138,49 @@ var setupDragDrop = function (issuesData) {
   })
 
   addEvent(bin, 'dragenter', function (e) {
-    ping('dragenter')
+    // ping('dragenter')
     this.classList.add('over')
     return false
   })
 
   addEvent(bin, 'dragleave', function () {
-    ping('dragleave')
+    // ping('dragleave')
     draggedOver = false
     this.classList.remove('over')
   })
 
   addEvent(bin, 'drop', function (e) {
-    var el = document.getElementById(e.dataTransfer.getData('Text'))
+    var self = this
+    var id = e.dataTransfer.getData('Text')
+    var el = document.getElementById(id)
+    var issueNumber = parseInt(id.replace(/^issue-/, ''), 10)
+    var milestoneNumber = parseInt(self.id.replace(/^milestone-/, ''), 10)
+    var fullName = window.location.pathname.replace(/\/user\//, '')
+    var u = ['https://api.github.com/repos', fullName, 'issues', issueNumber].join('/')
     ping('drop')
-    draggedOver = false
+    ping(u)
+    // ping(id)
+    // ping(el)
+    /*
+    ping(issueNumber)
+    ping(fullName)
+    ping(self)
+    */
+
     // stops the browser from redirecting...why???
     e.preventDefault()
     if (e.stopPropagation) { e.stopPropagation() }
 
-    this.appendChild(el)
-    this.classList.remove('over')
+    self.classList.remove('over')
+    draggedOver = false
+    ghPatch(u, appData.token, { milestone: milestoneNumber })
+      .then(function (a) {
+        console.log('AAA:', a)
+        self.appendChild(el)
+      })
+      .catch(function (err) {
+        console.log('ERR:', err)
+      })
     return false
   })
 }
@@ -230,12 +285,8 @@ var setupHomeForm = function () {
         appData.token = token
         appData.profile = x[0]
         appData.profile.repositories = x[1]
-          .filter(function (y) {
-            return y.open_issues_count
-          })
-          .map(function (y) {
-            return { repository: y }
-          })
+          .filter(function (y) { return y.open_issues_count })
+          .map(function (y) { return { repository: y } })
         pagejs.redirect('/user/' + appData.profile.login)
       })
 

@@ -66,6 +66,19 @@ var fetchUser = function (token, doc) {
     })
 }
 
+var fetchRepositories = function (token, doc) {
+  return ghFetch('https://api.github.com/user/repos', token, doc)
+/*
+    .then(function (j) {
+      var error
+      if (j && j.login) { return j }
+      error = new Error(j.message)
+      error._headers = j._headers
+      throw error
+    })
+*/
+}
+
 var showError = (function () {
   var $app = $('#app')
   var $error = $('#error')
@@ -89,12 +102,21 @@ var setupHomeForm = function () {
     var token = d.get('token')
     ev.preventDefault()
     if (!token) { return showError('Token github requis.') }
-    fetchUser(token, appData && token === appData.token ? appData.profile : false)
-      .then(function (profile) {
+
+    Promise.all([
+      fetchUser(token, appData && token === appData.token ? appData.profile : false),
+      fetchRepositories(token, appData && token === appData.token ? appData.profile.repositories : false)
+    ])
+      .then(function (x) {
+        console.log('REPOS:', x[1])
         appData.token = token
-        appData.profile = profile
+        appData.profile = x[0]
+        appData.profile.repositories = x[1].map(function (y) {
+          return { repository: y }
+        })
         pagejs.redirect('/user/' + appData.profile.login)
       })
+
       .catch(function (error) { showError(error) })
   })
 }

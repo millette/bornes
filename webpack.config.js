@@ -25,8 +25,8 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   entry: ['./entry.js'],
   output: {
-    path: path.resolve(__dirname, 'build/assets'),
-    publicPath: '/assets/',
+    path: path.resolve(__dirname, 'build'),
+    // publicPath: '/',
     filename: 'bundle.js'
   },
   devServer: {

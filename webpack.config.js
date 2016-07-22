@@ -1,5 +1,8 @@
 'use strict'
 
+// core
+var path = require('path')
+
 // npm
 const webpack = require('webpack')
 const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
@@ -21,8 +24,18 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   entry: ['./entry.js'],
-  output: { path: __dirname, filename: 'bundle.js' },
-  devServer: { inline: true, hot: true, historyApiFallback: true, host: 'localhost', port: 4040 },
+  output: {
+    path: path.resolve(__dirname, 'build/assets'),
+    publicPath: '/assets/',
+    filename: 'bundle.js'
+  },
+  devServer: {
+    inline: true,
+    hot: true,
+    historyApiFallback: true,
+    host: 'localhost',
+    port: 4040
+  },
   module: {
     loaders: [
       { test: /\.css?$/, loader: 'style!css' },

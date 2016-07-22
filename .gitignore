@@ -1,13 +1,3 @@
 npm-debug.log
 node_modules
-bundle.js
-bundle.min.js
-millette--committed-streaker.json
-bornes/
-src/main-orig.js
-src/styles-orig.css
-src/utils-orig.js
-v2.js
-yum.json
-yum2.json
-bundle.js.gz
+build/assets/bundle.js

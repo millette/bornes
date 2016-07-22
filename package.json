@@ -4,7 +4,7 @@
   "description": "webpack starter project",
   "scripts": {
     "lint": "standard",
-    "start": "standard && webpack-dev-server --inline --hot",
+    "start": "standard && webpack-dev-server --inline --hot --content-base build/",
     "make": "standard && NODE_ENV=production webpack"
   },
   "devDependencies": {

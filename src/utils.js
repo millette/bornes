@@ -322,6 +322,10 @@ var repoPage = function (path, title, sel, ctx, next) {
   if (!found) { showError('Il n\'y a rien ici.') }
 }
 
+var statePage = function (path, title, sel, ctx, next) {
+  $(sel).render({ json: JSON.stringify(appData, null, ' ') })
+}
+
 var userPage = (function () {
   var directives = {
     profile: {
@@ -348,6 +352,7 @@ var init = function (mod) {
   setupHomeForm()
   pagejs.exit(hideAll)
   setupPage('/', 'Accueil', '#home')
+  setupPage('/state', 'State', '#statepage', statePage)
   setupPage('/user/:login', 'Utilisateur', '#user', userPage)
   setupPage('/user/:login/:repo', 'Projet', '#repositorypage', repoPage)
   pagejs({ hashbang: !mod.history })

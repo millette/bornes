@@ -104,7 +104,7 @@ var setupDragDrop = function (issuesData) {
     })
   }
 
-  var body = document.querySelector('#repositorypage')
+  var body = document.querySelector('#allmilestones')
   var draggedOver = false
   var byMilestone = groupBy(issuesData, function (x) {
     return x.milestone && x.milestone.number || 'none'
@@ -118,7 +118,7 @@ var setupDragDrop = function (issuesData) {
     var h2 = document.createElement('h2')
     var zone = document.createElement('ul')
     var hasTitle = byMilestone[milestoneNumber][0].milestone
-    zone.className = 'issues'
+    zone.className = 'issues callout no-bullet'
     h2.innerHTML = hasTitle ? hasTitle.title : 'Sans milestone'
     zone.id = 'milestone-' + milestoneNumber
     byMilestone[milestoneNumber].forEach(function (z) {
@@ -132,7 +132,7 @@ var setupDragDrop = function (issuesData) {
       el.innerHTML = txt
       zone.appendChild(el)
     })
-    div.className = 'milestone'
+    div.className = 'milestone column small-6 medium-3 large-2'
     div.appendChild(h2)
     div.appendChild(zone)
     body.appendChild(div)

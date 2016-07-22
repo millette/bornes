@@ -1,7 +1,10 @@
-body {
-  font-family: sans-serif;
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
 }
 
+/*
 #error {
   margin: 1em;
   padding: 1em;
@@ -20,11 +23,6 @@ ul.issues > li {
   padding: 0.25em;
 }
 
-*[draggable=true] {
-  -moz-user-select:none;
-  -khtml-user-drag: element;
-  cursor: move;
-}
 
 ul.issues .label {
   padding: 0.125em 0.35em;
@@ -39,3 +37,4 @@ ul.issues .label {
 #repositorypage > div > h2 {
   text-align: center;
 }
+*/

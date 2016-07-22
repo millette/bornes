@@ -44,7 +44,6 @@ var init = function (mod) {
       })
   }
 
-
   var showError = (function () {
     var $app = $('#app')
     var $error = $('#error')

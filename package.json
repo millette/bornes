@@ -4,6 +4,7 @@
   "description": "webpack starter project",
   "scripts": {
     "lint": "standard",
+    "now": "standard && NODE_ENV=production webpack && ns build",
     "start": "standard && webpack-dev-server --inline --hot --content-base build/",
     "make": "standard && NODE_ENV=production webpack"
   },
@@ -20,6 +21,8 @@
     "jquery": "~2.2.4",
     "jquery-autocomplete": "~1.2.1",
     "lodash.groupby": "~4.4.0",
+    "now": "^0.18.1",
+    "now-serve": "^0.2.0",
     "page": "~1.7.1",
     "script-loader": "^0.7.0",
     "standard": "~7.1.2",

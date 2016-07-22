@@ -118,7 +118,7 @@ var setupDragDrop = function (issuesData) {
     var h2 = document.createElement('h2')
     var zone = document.createElement('ul')
     var hasTitle = byMilestone[milestoneNumber][0].milestone
-    zone.className = 'issues callout no-bullet'
+    zone.className = 'issues callout primary no-bullet'
     h2.innerHTML = hasTitle ? hasTitle.title : 'Sans milestone'
     zone.id = 'milestone-' + milestoneNumber
     byMilestone[milestoneNumber].forEach(function (z) {

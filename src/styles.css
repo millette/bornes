@@ -1,40 +1,9 @@
-*[draggable=true] {
+*[draggable=true], *[draggable=true] * {
   -moz-user-select:none;
   -khtml-user-drag: element;
   cursor: move;
 }
 
-/*
-#error {
-  margin: 1em;
-  padding: 1em;
-  border: thick dashed red;
-}
-
-ul.issues {
-  background: green;
-  padding: 1em;
-}
-
-ul.issues > li {
-  list-style: none;
-  margin: 1em 0;
-  background: lightgreen;
-  padding: 0.25em;
-}
-
-
-ul.issues .label {
-  padding: 0.125em 0.35em;
-}
-
-#repositorypage > div {
-  float: left;
-  width: 15em;
-  margin: 1em;
-}
-
-#repositorypage > div > h2 {
+#allmilestones > div > h2 {
   text-align: center;
 }
-*/

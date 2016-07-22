@@ -76,6 +76,7 @@ module.exports = function (issuesData, ghPatch, showError) {
       })
       txt += '<br>' + z.title
       el.innerHTML = txt
+      el.className = 'callout'
       zone.appendChild(el)
     })
     div.className = 'milestone column small-6 medium-3 large-2'

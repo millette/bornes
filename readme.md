@@ -8,5 +8,6 @@
 
 `npm start`
 
-Go to `http://localhost:4040/webpack-dev-server/`
+Go to `http://localhost:4040/
+
 

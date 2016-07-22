@@ -1,9 +1,9 @@
+/* globals $ */
 'use strict'
 
 // npm
 var pagejs = require('page')
 var groupBy = require('lodash.groupby')
-var $ = require('jquery')
 $.fn.render = require('transparency').jQueryPlugin
 
 var debugPing = true
@@ -348,6 +348,7 @@ var userPage = (function () {
 
 var init = function (mod) {
   appData = { }
+  $(document).foundation()
   hideAll()
   setupHomeForm()
   pagejs.exit(hideAll)

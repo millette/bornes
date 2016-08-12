@@ -9,8 +9,8 @@
     "make": "standard && NODE_ENV=production webpack"
   },
   "devDependencies": {
-    "browser-sync": "~2.13.0",
-    "browser-sync-webpack-plugin": "~1.1.0",
+    "browser-sync": "~2.14.0",
+    "browser-sync-webpack-plugin": "~1.1.2",
     "css-loader": "~0.23.1",
     "drag-drop-polyfill": "github:millette/drag-drop-polyfill",
     "es6-promise": "~3.2.1",
@@ -20,9 +20,9 @@
     "imports-loader": "~0.6.5",
     "jquery": "~2.2.4",
     "jquery-autocomplete": "~1.2.1",
-    "lodash.groupby": "~4.4.0",
-    "now": "^0.18.1",
-    "now-serve": "^0.2.0",
+    "lodash.groupby": "~4.5.1",
+    "now": "^0.19.0",
+    "now-serve": "^0.3.1",
     "page": "~1.7.1",
     "script-loader": "^0.7.0",
     "standard": "~7.1.2",

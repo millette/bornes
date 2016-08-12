@@ -1,6 +1,6 @@
 {
   "name": "bornes",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "webpack starter project",
   "scripts": {
     "lint": "standard",
